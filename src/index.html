@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:;"/>
+  <title>JupyLite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Lora:wght@400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link id="hljs-theme" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body class="theme-rose-pine">
+
+<!-- FONT MODAL -->
+<div id="font-backdrop" style="display:none">
+  <div id="font-modal">
+    <div class="fm-hdr">
+      <span>Font Settings</span>
+      <button id="fm-x">×</button>
+    </div>
+    <div class="fm-body">
+      <label class="fm-lbl">App Font Family</label>
+      <div class="fm-row"><select id="sel-app-fam" class="fm-sel"></select><div id="prev-app" class="fm-prev">AaBbCc</div></div>
+      <label class="fm-lbl">App Font Size</label>
+      <div class="fm-row">
+        <button class="fm-sz" data-t="app" data-d="-1">−</button>
+        <span id="val-app" class="fm-num">14</span><span class="fm-px">px</span>
+        <button class="fm-sz" data-t="app" data-d="1">+</button>
+        <button class="fm-rst" data-t="app">Reset</button>
+      </div>
+      <hr class="fm-div"/>
+      <label class="fm-lbl">Code Font Family</label>
+      <div class="fm-row"><select id="sel-code-fam" class="fm-sel"></select><div id="prev-code" class="fm-prev fm-mono">fn(){}</div></div>
+      <label class="fm-lbl">Code Font Size</label>
+      <div class="fm-row">
+        <button class="fm-sz" data-t="code" data-d="-1">−</button>
+        <span id="val-code" class="fm-num">13</span><span class="fm-px">px</span>
+        <button class="fm-sz" data-t="code" data-d="1">+</button>
+        <button class="fm-rst" data-t="code">Reset</button>
+      </div>
+      <hr class="fm-div"/>
+      <label class="fm-lbl">UI Font Size <small>(menubar · sidebar · tabs)</small></label>
+      <div class="fm-row">
+        <button class="fm-sz" data-t="ui" data-d="-1">−</button>
+        <span id="val-ui" class="fm-num">13</span><span class="fm-px">px</span>
+        <button class="fm-sz" data-t="ui" data-d="1">+</button>
+        <button class="fm-rst" data-t="ui">Reset</button>
+      </div>
+    </div>
+    <div class="fm-ftr">
+      <button id="fm-reset-all">Reset All</button>
+      <button id="fm-apply">Apply</button>
+    </div>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div id="layout">
+
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <div id="sb-hdr">
+      <div class="logo">
+        <img src="../assets/JupyLite.png" width="20" height="20" style="border-radius:4px;object-fit:contain;" />
+        <span id="app-label">JupyLite</span>
+      </div>
+      <div id="themes">
+        <button class="tb active" data-theme="rose-pine" title="Rosé Pine"></button>
+        <button class="tb" data-theme="dark" title="Dark"></button>
+        <button class="tb" data-theme="light" title="Light"></button>
+      </div>
+    </div>
+    <nav id="toc"></nav>
+    <div id="sb-ftr">
+      <button id="open-btn" class="open-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Open Notebook
+      </button>
+    </div>
+  </aside>
+
+  <!-- Resize handle -->
+  <div id="resizer"></div>
+
+  <!-- Main -->
+  <div id="main">
+
+    <!-- Tabs -->
+    <div id="tabbar" style="display:none">
+      <div id="tablist"></div>
+      <button id="tab-add" title="Open">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <!-- Find -->
+    <div id="findbar" style="display:none">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input id="find-inp" type="text" placeholder="Find in notebook… (Ctrl+F)" autocomplete="off" spellcheck="false"/>
+      <span id="find-cnt"></span>
+      <button class="fnav" id="find-prev">↑</button>
+      <button class="fnav" id="find-next">↓</button>
+      <button id="find-x">×</button>
+    </div>
+
+    <!-- Content -->
+    <div id="content">
+      <!-- Welcome -->
+      <div id="welcome">
+        <div id="welcome-inner">
+          <img src="../assets/JupyLite.png" id="welcome-logo" alt="" />
+          <h1>JupyLite</h1>
+          <p>A beautiful viewer for Jupyter Notebooks</p>
+          <button id="welcome-open" class="open-btn large">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            Open .ipynb File
+          </button>
+          <small>or drag &amp; drop · open multiple files for tabs</small>
+        </div>
+      </div>
+      <!-- Notebook pages go here -->
+    </div>
+
+  </div>
+</div>
+
+<script src="renderer.js"></script>
+</body>
+</html>

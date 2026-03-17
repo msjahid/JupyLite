@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JupyLite — Documentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    :root{
+      --primary-color:#eb6f92;
+      --secondary-color:#9ccfd8;
+      --accent-color:#f6c177;
+      --highlight-color:#c4a7e7;
+      --teal-accent:#31748f;
+      --bg-dark:#191724;
+      --bg-darker:#1a1a1a;
+      --bg-surface:#1e1c2e;
+      --text-light:#e0def4;
+      --text-gray:#6e6a86;
+      --border-color:#26233a;
+    }
+    html{scroll-behavior:smooth;scroll-padding-top:70px;max-width:100%;overflow-x:hidden;}
+    body{font-family:'Source Code Pro','Courier New',monospace;background:var(--bg-dark);color:var(--text-light);line-height:1.6;overflow-x:hidden;}
+
+    /* NAV */
+    .nav{position:fixed;top:0;left:0;width:100%;z-index:100;background:rgba(25,23,36,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-color);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:60px;}
+    .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text-light);font-weight:700;font-size:1.1rem;}
+    .nav-links{display:flex;gap:26px;list-style:none;}
+    .nav-links a{color:var(--text-gray);text-decoration:none;font-size:0.82rem;font-weight:500;transition:color 0.2s;letter-spacing:0.5px;}
+    .nav-links a:hover{color:var(--primary-color);}
+    .nav-btn{background:var(--primary-color);color:var(--bg-dark);padding:7px 18px;border-radius:20px;text-decoration:none;font-size:0.82rem;font-weight:700;transition:all 0.2s;}
+    .nav-btn:hover{filter:brightness(1.1);transform:translateY(-1px);}
+
+    /* HERO */
+    .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 5% 60px;position:relative;overflow:hidden;}
+    .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(196,167,231,0.07) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(156,207,216,0.05) 0%,transparent 50%),radial-gradient(ellipse at 50% 80%,rgba(235,111,146,0.04) 0%,transparent 50%);pointer-events:none;}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(196,167,231,0.1);border:1px solid rgba(196,167,231,0.25);color:var(--highlight-color);padding:6px 16px;border-radius:20px;font-size:0.78rem;font-weight:600;letter-spacing:1px;margin-bottom:28px;animation:fd 0.6s ease both;}
+    .hero h1{font-size:3.8rem;font-weight:700;letter-spacing:2px;background:linear-gradient(135deg,var(--text-light) 0%,var(--highlight-color) 50%,var(--secondary-color) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px;animation:fd 0.6s 0.1s ease both;}
+    .hero p{font-size:1.1rem;color:var(--text-gray);max-width:580px;margin:0 auto 36px;line-height:1.8;animation:fd 0.6s 0.2s ease both;}
+    .hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fd 0.6s 0.3s ease both;}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 26px;border-radius:8px;text-decoration:none;font-family:'Source Code Pro',monospace;font-size:0.88rem;font-weight:600;transition:all 0.25s;}
+    .btn-primary{background:var(--primary-color);color:var(--bg-dark);}
+    .btn-primary:hover{filter:brightness(1.1);transform:translateY(-2px);box-shadow:0 8px 24px rgba(235,111,146,0.35);}
+    .btn-outline{background:transparent;border:2px solid var(--border-color);color:var(--text-light);}
+    .btn-outline:hover{border-color:var(--secondary-color);color:var(--secondary-color);transform:translateY(-2px);}
+    .badges-row{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:26px;animation:fd 0.6s 0.4s ease both;}
+    .badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:12px;font-size:0.73rem;font-weight:600;}
+    .bp{background:rgba(235,111,146,0.12);color:var(--primary-color);border:1px solid rgba(235,111,146,0.22);}
+    .bt{background:rgba(156,207,216,0.12);color:var(--secondary-color);border:1px solid rgba(156,207,216,0.22);}
+    .bg{background:rgba(246,193,119,0.12);color:var(--accent-color);border:1px solid rgba(246,193,119,0.22);}
+    .bh{background:rgba(196,167,231,0.12);color:var(--highlight-color);border:1px solid rgba(196,167,231,0.22);}
+    @keyframes fd{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+
+    /* SECTIONS */
+    section{padding:90px 5%;max-width:1200px;margin:0 auto;}
+    .section-title{text-align:center;margin-bottom:55px;}
+    .section-title h2{font-size:2.2rem;font-weight:700;color:var(--primary-color);display:inline-block;position:relative;margin-bottom:10px;}
+    .section-title h2::after{content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:48px;height:3px;background:var(--primary-color);border-radius:2px;}
+    .section-title p{color:var(--text-gray);margin-top:18px;font-size:0.9rem;}
+
+    /* SCREENSHOTS GRID */
+    .ss-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;}
+    .ss-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;}
+    .ss-card{background:var(--bg-surface);border-radius:14px;overflow:hidden;border:1px solid var(--border-color);transition:all 0.3s;}
+    .ss-card:hover{transform:translateY(-4px);border-color:var(--highlight-color);box-shadow:0 16px 48px rgba(196,167,231,0.14);}
+    .ss-bar{padding:10px 16px;background:rgba(26,23,36,0.9);border-bottom:1px solid var(--border-color);display:flex;align-items:center;gap:7px;}
+    .dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
+    .dr{background:#eb6f92;}.dy{background:#f6c177;}.dg{background:#9ccfd8;}
+    .ss-lbl{margin-left:auto;font-size:0.72rem;color:var(--text-gray);font-weight:500;}
+    .ss-img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover;background:#1e1c2e;}
+    .ss-cap{padding:12px 16px;font-size:0.78rem;color:var(--text-gray);border-top:1px solid var(--border-color);display:flex;align-items:center;gap:7px;line-height:1.5;}
+    .ss-cap i{color:var(--highlight-color);flex-shrink:0;}
+
+    /* FEATURES */
+    .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+    .feat-card{background:var(--bg-surface);border-radius:12px;padding:24px;border:1px solid var(--border-color);transition:all 0.3s;position:relative;overflow:hidden;}
+    .feat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary-color),var(--highlight-color));transform:scaleX(0);transition:transform 0.3s;transform-origin:left;}
+    .feat-card:hover{transform:translateY(-4px);border-color:var(--primary-color);box-shadow:0 10px 28px rgba(235,111,146,0.12);}
+    .feat-card:hover::before{transform:scaleX(1);}
+    .feat-icon{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,rgba(235,111,146,0.14),rgba(156,207,216,0.14));display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+    .feat-icon i{font-size:1.1rem;color:var(--primary-color);}
+    .feat-card h3{font-size:0.9rem;font-weight:700;color:var(--text-light);margin-bottom:7px;}
+    .feat-card p{font-size:0.8rem;color:var(--text-gray);line-height:1.7;}
+    .feat-card p code{color:var(--secondary-color);font-size:0.78rem;}
+
+    /* ZOOM FEATURE BOX */
+    .zoom-box{background:var(--bg-surface);border-radius:14px;padding:28px 32px;border:1px solid var(--border-color);margin-bottom:40px;display:flex;gap:32px;align-items:flex-start;border-left:4px solid var(--accent-color);}
+    .zoom-icon{font-size:2.5rem;flex-shrink:0;color:var(--accent-color);}
+    .zoom-box h3{color:var(--accent-color);font-size:1.05rem;font-weight:700;margin-bottom:10px;}
+    .zoom-methods{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
+    .zoom-method{display:flex;align-items:center;gap:10px;font-size:0.83rem;color:var(--text-gray);}
+    .zoom-method i{color:var(--secondary-color);width:16px;text-align:center;}
+
+    /* THEMES */
+    .themes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+    .theme-card{border-radius:12px;overflow:hidden;border:1px solid var(--border-color);transition:all 0.3s;}
+    .theme-card:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(0,0,0,0.3);}
+    .theme-preview{height:90px;display:flex;align-items:center;justify-content:center;gap:8px;}
+    .tp-rp{background:linear-gradient(135deg,#191724 0%,#1f1d2e 60%,#26233a 100%);}
+    .tp-dk{background:linear-gradient(135deg,#0d1117 0%,#161b22 60%,#21262d 100%);}
+    .tp-lt{background:linear-gradient(135deg,#ffffff 0%,#f6f8fa 60%,#eaeef2 100%);border-bottom:1px solid #eaeef2;}
+    .tdot{width:14px;height:14px;border-radius:50%;}
+    .theme-info{padding:14px 16px;background:var(--bg-surface);}
+    .theme-info.light{background:#f6f8fa;border-top:1px solid #eaeef2;}
+    .theme-name{font-size:0.92rem;font-weight:700;color:var(--text-light);margin-bottom:4px;}
+    .theme-name.dark-text{color:#1a1a1a;}
+    .theme-desc{font-size:0.78rem;color:var(--text-gray);}
+    .theme-desc.dark-text{color:#555;}
+    .theme-default{font-size:0.68rem;color:var(--accent-color);margin-left:6px;font-weight:600;}
+
+    /* INSTALL */
+    .inst-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+    .inst-card{background:var(--bg-surface);border-radius:12px;padding:20px;border:1px solid var(--border-color);transition:all 0.3s;}
+    .inst-card:hover{border-color:var(--secondary-color);transform:translateX(3px);}
+    .inst-hdr{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+    .inst-os{font-size:1.4rem;}
+    .inst-title{font-size:0.92rem;font-weight:700;color:var(--text-light);}
+    .inst-sub{font-size:0.72rem;color:var(--text-gray);}
+    .codeblock{background:rgba(25,23,36,0.9);border:1px solid var(--border-color);border-radius:7px;padding:11px 14px;font-size:0.78rem;color:var(--secondary-color);font-family:'Source Code Pro',monospace;}
+    .codeblock::before{content:'$ ';color:var(--text-gray);}
+
+    /* SHORTCUTS */
+    .shortcuts-tbl{width:100%;border-collapse:collapse;}
+    .shortcuts-tbl th{background:var(--bg-surface);padding:11px 18px;text-align:left;color:var(--primary-color);font-size:0.78rem;font-weight:700;letter-spacing:1px;border-bottom:2px solid var(--border-color);}
+    .shortcuts-tbl td{padding:11px 18px;border-bottom:1px solid var(--border-color);font-size:0.83rem;}
+    .shortcuts-tbl tr:last-child td{border-bottom:none;}
+    .shortcuts-tbl tr:hover td{background:rgba(30,28,46,0.5);}
+    kbd{background:var(--bg-surface);border:1px solid var(--border-color);border-radius:5px;padding:2px 8px;font-size:0.76rem;color:var(--highlight-color);font-family:'Source Code Pro',monospace;box-shadow:0 2px 0 var(--border-color);}
+
+    /* BUILD */
+    .build-steps{display:flex;flex-direction:column;gap:14px;}
+    .build-step{background:var(--bg-surface);border-radius:12px;padding:20px 22px;border:1px solid var(--border-color);display:flex;gap:18px;align-items:flex-start;}
+    .step-num{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--primary-color),var(--highlight-color));display:flex;align-items:center;justify-content:center;font-size:0.82rem;font-weight:700;color:var(--bg-dark);}
+    .step-body h3{font-size:0.92rem;font-weight:700;color:var(--text-light);margin-bottom:5px;}
+    .step-body p{font-size:0.8rem;color:var(--text-gray);margin-bottom:8px;}
+    .ci{display:inline-block;background:rgba(25,23,36,0.9);border:1px solid var(--border-color);border-radius:6px;padding:7px 13px;font-size:0.78rem;color:var(--secondary-color);font-family:'Source Code Pro',monospace;margin:2px;}
+
+    /* AUTHOR */
+    .author-card{background:var(--bg-surface);border-radius:16px;padding:36px;border:1px solid var(--border-color);display:flex;gap:28px;align-items:center;max-width:680px;margin:0 auto;}
+    .author-av{width:82px;height:82px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--primary-color),var(--highlight-color));display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;color:var(--bg-dark);}
+    .author-name{font-size:1.35rem;font-weight:700;color:var(--text-light);margin-bottom:3px;}
+    .author-handle{color:var(--primary-color);font-size:0.88rem;margin-bottom:10px;}
+    .author-bio{color:var(--text-gray);font-size:0.82rem;line-height:1.7;margin-bottom:14px;}
+    .author-links{display:flex;gap:10px;flex-wrap:wrap;}
+    .al{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:7px;font-size:0.78rem;font-weight:600;text-decoration:none;transition:all 0.2s;border:1px solid var(--border-color);color:var(--text-light);}
+    .al:hover{border-color:var(--primary-color);color:var(--primary-color);transform:translateY(-2px);}
+
+    /* FOOTER */
+    footer{border-top:1px solid var(--border-color);padding:36px 5%;text-align:center;background:linear-gradient(0deg,rgba(30,28,46,0.4),transparent);}
+    .ft-brand{font-size:1.05rem;font-weight:700;color:var(--text-light);margin-bottom:8px;}
+    .ft-links{display:flex;gap:22px;justify-content:center;margin:14px 0;flex-wrap:wrap;}
+    .ft-links a{color:var(--text-gray);text-decoration:none;font-size:0.8rem;transition:color 0.2s;}
+    .ft-links a:hover{color:var(--primary-color);}
+    footer p{color:var(--text-gray);font-size:0.8rem;}
+    footer a{color:var(--primary-color);text-decoration:none;}
+
+    /* RESPONSIVE */
+    @media(max-width:960px){.feat-grid{grid-template-columns:repeat(2,1fr);}.ss-grid{grid-template-columns:1fr;}.ss-grid-3{grid-template-columns:1fr 1fr;}.themes-grid{grid-template-columns:1fr 1fr;}.inst-grid{grid-template-columns:1fr;}.nav-links{display:none;}.zoom-box{flex-direction:column;gap:16px;}}
+    @media(max-width:600px){.hero h1{font-size:2.2rem;}.feat-grid{grid-template-columns:1fr;}.themes-grid{grid-template-columns:1fr;}.ss-grid-3{grid-template-columns:1fr;}.author-card{flex-direction:column;align-items:flex-start;gap:18px;}}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="#" class="nav-brand"><i class="fa-solid fa-book-open" style="color:var(--highlight-color)"></i> JupyLite</a>
+  <ul class="nav-links">
+    <li><a href="#screenshots">Screenshots</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#themes">Themes</a></li>
+    <li><a href="#install">Install</a></li>
+    <li><a href="#shortcuts">Shortcuts</a></li>
+    <li><a href="#build">Build</a></li>
+  </ul>
+  <a href="https://github.com/msjahid/jupylite/releases" class="nav-btn" target="_blank">
+    <i class="fa-solid fa-download"></i> Download
+  </a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge"><i class="fa-solid fa-circle" style="font-size:0.45rem;color:var(--secondary-color)"></i>&nbsp; v1.0.0 &mdash; Now Available</div>
+  <h1>JupyLite</h1>
+  <p>A beautiful, lightweight Jupyter Notebook viewer for desktop.<br/>Windows &bull; Linux &bull; macOS &mdash; built with Electron.</p>
+  <div class="hero-btns">
+    <a href="https://github.com/msjahid/jupylite/releases" class="btn btn-primary" target="_blank"><i class="fa-solid fa-download"></i> Download</a>
+    <a href="https://github.com/msjahid/jupylite" class="btn btn-outline" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+    <a href="https://msjahid.me" class="btn btn-outline" target="_blank"><i class="fa-solid fa-globe"></i> Website</a>
+  </div>
+  <div class="badges-row">
+    <span class="badge bp"><i class="fa-solid fa-scale-balanced"></i> MIT License</span>
+    <span class="badge bt"><i class="fa-brands fa-linux"></i> Linux</span>
+    <span class="badge bt"><i class="fa-brands fa-windows"></i> Windows</span>
+    <span class="badge bt"><i class="fa-brands fa-apple"></i> macOS</span>
+    <span class="badge bh"><i class="fa-solid fa-bolt"></i> Electron 28</span>
+    <span class="badge bg"><i class="fa-solid fa-star"></i> Ros&eacute; Pine</span>
+  </div>
+</div>
+
+<!-- SCREENSHOTS -->
+<section id="screenshots">
+  <div class="section-title">
+    <h2>Screenshots</h2>
+    <p>Real screenshots from JupyLite &mdash; all three themes, multi-tab, and font settings</p>
+  </div>
+
+  <!-- Row 1: single tab light + multi tab -->
+  <div class="ss-grid">
+    <div class="ss-card">
+      <div class="ss-bar"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div><span class="ss-lbl">Light Theme &mdash; Single Notebook</span></div>
+      <img src="images/Light_theme.png" class="ss-img" alt="JupyLite Light Theme"/>
+      <div class="ss-cap"><i class="fa-solid fa-sun"></i> Light theme with TOC sidebar, Jupyter-style In [N]: labels, markdown rendering</div>
+    </div>
+    <div class="ss-card">
+      <div class="ss-bar"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div><span class="ss-lbl">Multi-Tab &mdash; Multiple Notebooks</span></div>
+      <img src="images/Multi-Tab.png" class="ss-img" alt="JupyLite Multi-Tab"/>
+      <div class="ss-cap"><i class="fa-solid fa-table-columns"></i> Open multiple .ipynb files as tabs &mdash; single instance, no new windows</div>
+    </div>
+  </div>
+
+  <!-- Row 2: rosepine + dark + font settings -->
+  <div class="ss-grid-3">
+    <div class="ss-card">
+      <div class="ss-bar"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div><span class="ss-lbl">Ros&eacute; Pine Theme</span></div>
+      <img src="images/Rosepine_theme.png" class="ss-img" alt="JupyLite Rosé Pine Theme"/>
+      <div class="ss-cap"><i class="fa-solid fa-moon"></i> Default Ros&eacute; Pine dark theme with syntax highlighting</div>
+    </div>
+    <div class="ss-card">
+      <div class="ss-bar"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div><span class="ss-lbl">Dark Theme</span></div>
+      <img src="images/Dark_theme.png" class="ss-img" alt="JupyLite Dark Theme"/>
+      <div class="ss-cap"><i class="fa-solid fa-circle-half-stroke"></i> GitHub-style dark theme with blue accents</div>
+    </div>
+    <div class="ss-card">
+      <div class="ss-bar"><div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div><span class="ss-lbl">Font Settings</span></div>
+      <img src="images/Font_settings.png" class="ss-img" alt="JupyLite Font Settings"/>
+      <div class="ss-cap"><i class="fa-solid fa-font"></i> Font settings modal &mdash; app font, code font, UI font size</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-title">
+    <h2>Features</h2>
+    <p>Everything you need to view Jupyter Notebooks beautifully</p>
+  </div>
+
+  <!-- Zoom highlight box -->
+  <div class="zoom-box">
+    <div class="zoom-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+    <div>
+      <h3>Full App Zoom &mdash; Three Ways</h3>
+      <p style="font-size:0.82rem;color:var(--text-gray);margin-bottom:12px;">Zoom the entire application interface &mdash; every element scales together, not just text.</p>
+      <div class="zoom-methods">
+        <div class="zoom-method"><i class="fa-solid fa-keyboard"></i><span><kbd>Ctrl</kbd> + <kbd>=</kbd> zoom in &nbsp;&bull;&nbsp; <kbd>Ctrl</kbd> + <kbd>&minus;</kbd> zoom out &nbsp;&bull;&nbsp; <kbd>Ctrl</kbd> + <kbd>0</kbd> reset</span></div>
+        <div class="zoom-method"><i class="fa-solid fa-computer-mouse"></i><span><kbd>Ctrl</kbd> + <b>Scroll Up</b> to zoom in &nbsp;&bull;&nbsp; <kbd>Ctrl</kbd> + <b>Scroll Down</b> to zoom out</span></div>
+        <div class="zoom-method"><i class="fa-solid fa-bars"></i><span>Menu &rarr; View &rarr; Zoom In / Zoom Out / Actual Size</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-icon"><i class="fa-solid fa-table-columns"></i></div>
+      <h3>Multi-Tab Support</h3>
+      <p>Open multiple <code>.ipynb</code> files as tabs in one window. Double-click another file &mdash; opens as a new tab, never a new window.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"><i class="fa-solid fa-palette"></i></div>
+      <h3>3 Beautiful Themes</h3>
+      <p>Ros&eacute; Pine (dark), Dark, and Light. Switch instantly from sidebar dots or <kbd>Ctrl+Shift+1/2/3</kbd>.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+      <h3>Find in Notebook</h3>
+      <p>Real-time search with highlighted matches across all cell types &mdash; code, markdown, and output. Press <kbd>Ctrl+F</kbd>.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+      <h3>Full App Zoom</h3>
+      <p>Zoom the entire interface with <kbd>Ctrl+=</kbd> / <kbd>Ctrl+&minus;</kbd> or <kbd>Ctrl+Scroll</kbd>. Zoom level persists between sessions.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"><i class="fa-solid fa-code"></i></div>
+      <h3>Syntax Highlighting</h3>
+      <p>highlight.js powers 190+ language highlighting. Jupyter-style <code>In [N]:</code> and <code>Out [N]:</code> labels just like classic Jupyter.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"><i class="fa-solid fa-image"></i></div>
+      <h3>Rich Outputs</h3>
+      <p>Renders PNG/JPEG/SVG images, DataFrames, HTML tables, matplotlib plots, stderr streams, and error tracebacks.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"><i class="fa-solid fa-square-root-variable"></i></div>
+      <h3>Math Rendering</h3>
+      <p>KaTeX renders inline <code>$...$</code> and block <code>$$...$$</code> LaTeX equations across all markdown cells.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"><i class="fa-solid fa-font"></i></div>
+      <h3>Font Customization</h3>
+      <p>Independently set app font family &amp; size, code font family &amp; size, and UI font size (menubar, sidebar, tabs).</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"><i class="fa-solid fa-list"></i></div>
+      <h3>Table of Contents</h3>
+      <p>Auto-generated from markdown headings. Resizable sidebar &mdash; drag the handle to your preferred width, saved between sessions.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"><i class="fa-solid fa-hand-pointer"></i></div>
+      <h3>Drag &amp; Drop</h3>
+      <p>Drop any <code>.ipynb</code> file onto the window. Drop multiple files to open them all as separate tabs at once.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"><i class="fa-solid fa-copy"></i></div>
+      <h3>Copy Code</h3>
+      <p>Hover any code cell to reveal a copy button. Copies the full cell source to clipboard with a single click.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"><i class="fa-solid fa-computer"></i></div>
+      <h3>Cross-Platform</h3>
+      <p>Native builds for Windows (.exe .msi), Linux (.deb .AppImage .rpm .snap .pacman), and macOS (.dmg).</p>
+    </div>
+  </div>
+</section>
+
+<!-- THEMES -->
+<section id="themes">
+  <div class="section-title">
+    <h2>Themes</h2>
+    <p>Three carefully crafted themes &mdash; switch with <kbd>Ctrl+Shift+1</kbd> / <kbd>2</kbd> / <kbd>3</kbd> or sidebar dots</p>
+  </div>
+  <div class="themes-grid">
+    <div class="theme-card">
+      <div class="theme-preview tp-rp">
+        <div class="tdot" style="background:#c4a7e7"></div>
+        <div class="tdot" style="background:#eb6f92"></div>
+        <div class="tdot" style="background:#9ccfd8"></div>
+        <div class="tdot" style="background:#f6c177"></div>
+      </div>
+      <div class="theme-info">
+        <div class="theme-name">🌸 Ros&eacute; Pine <span class="theme-default">Default</span></div>
+        <div class="theme-desc">Warm dark theme with soft purple, pink and teal accents. Easy on eyes for long sessions.</div>
+      </div>
+    </div>
+    <div class="theme-card">
+      <div class="theme-preview tp-dk">
+        <div class="tdot" style="background:#58a6ff"></div>
+        <div class="tdot" style="background:#f85149"></div>
+        <div class="tdot" style="background:#79c0ff"></div>
+        <div class="tdot" style="background:#e3b341"></div>
+      </div>
+      <div class="theme-info">
+        <div class="theme-name">🌑 Dark</div>
+        <div class="theme-desc">GitHub-style dark theme with blue accents. Familiar and focused for developers.</div>
+      </div>
+    </div>
+    <div class="theme-card">
+      <div class="theme-preview tp-lt">
+        <div class="tdot" style="background:#6b3fa0"></div>
+        <div class="tdot" style="background:#0055cc"></div>
+        <div class="tdot" style="background:#006688"></div>
+        <div class="tdot" style="background:#a06000"></div>
+      </div>
+      <div class="theme-info light">
+        <div class="theme-name dark-text">&#9728;&#65039; Light</div>
+        <div class="theme-desc dark-text">Clean white theme for bright environments. High contrast and easy to read.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTALL -->
+<section id="install">
+  <div class="section-title">
+    <h2>Installation</h2>
+    <p>Download and install for your platform from the <a href="https://github.com/msjahid/jupylite/releases" target="_blank" style="color:var(--primary-color)">Releases page</a></p>
+  </div>
+  <div class="inst-grid">
+    <div class="inst-card">
+      <div class="inst-hdr"><span class="inst-os">🐧</span><div><div class="inst-title">Linux &mdash; AppImage</div><div class="inst-sub">Any distro, no install needed</div></div></div>
+      <div class="codeblock">chmod +x JupyLite-1.0.0.AppImage && ./JupyLite-1.0.0.AppImage</div>
+    </div>
+    <div class="inst-card">
+      <div class="inst-hdr"><span class="inst-os">🐧</span><div><div class="inst-title">Linux &mdash; Debian / Ubuntu / Kali</div><div class="inst-sub">.deb package</div></div></div>
+      <div class="codeblock">sudo dpkg -i jupylite_1.0.0_amd64.deb</div>
+    </div>
+    <div class="inst-card">
+      <div class="inst-hdr"><span class="inst-os">🐧</span><div><div class="inst-title">Linux &mdash; Fedora / RHEL</div><div class="inst-sub">.rpm package</div></div></div>
+      <div class="codeblock">sudo dnf install jupylite-1.0.0.x86_64.rpm</div>
+    </div>
+    <div class="inst-card">
+      <div class="inst-hdr"><span class="inst-os">🐧</span><div><div class="inst-title">Linux &mdash; Arch / Manjaro</div><div class="inst-sub">.pacman package</div></div></div>
+      <div class="codeblock">sudo pacman -U jupylite-1.0.0.pacman</div>
+    </div>
+    <div class="inst-card">
+      <div class="inst-hdr"><span class="inst-os">🪟</span><div><div class="inst-title">Windows</div><div class="inst-sub">.exe NSIS installer or .msi</div></div></div>
+      <div class="codeblock" style="font-size:0.76rem;">Run JupyLite Setup 1.0.0.exe and follow the installer</div>
+    </div>
+    <div class="inst-card">
+      <div class="inst-hdr"><span class="inst-os">🍎</span><div><div class="inst-title">macOS</div><div class="inst-sub">.dmg disk image</div></div></div>
+      <div class="codeblock" style="font-size:0.76rem;">Open JupyLite-1.0.0.dmg &rarr; drag to Applications</div>
+    </div>
+  </div>
+  <div style="margin-top:20px;background:var(--bg-surface);border-radius:12px;padding:20px 24px;border:1px solid var(--border-color);border-left:4px solid var(--secondary-color);">
+    <h3 style="color:var(--secondary-color);font-size:0.9rem;margin-bottom:8px;"><i class="fa-solid fa-file-code"></i> Set as default app for .ipynb files (Linux)</h3>
+    <p style="color:var(--text-gray);font-size:0.8rem;margin-bottom:10px;">Register JupyLite so double-clicking any .ipynb file opens it directly in JupyLite:</p>
+    <div class="codeblock">bash install-icon-dev.sh</div>
+  </div>
+</section>
+
+<!-- SHORTCUTS -->
+<section id="shortcuts">
+  <div class="section-title">
+    <h2>Keyboard Shortcuts</h2>
+    <p>Work faster with these shortcuts</p>
+  </div>
+  <div style="background:var(--bg-surface);border-radius:14px;overflow:hidden;border:1px solid var(--border-color);">
+    <table class="shortcuts-tbl">
+      <thead><tr><th>Action</th><th>Shortcut</th></tr></thead>
+      <tbody>
+        <tr><td>Open Notebook</td><td><kbd>Ctrl+O</kbd></td></tr>
+        <tr><td>Close Tab</td><td><kbd>Ctrl+W</kbd></td></tr>
+        <tr><td>Find in Notebook</td><td><kbd>Ctrl+F</kbd></td></tr>
+        <tr><td>Find Next</td><td><kbd>Enter</kbd></td></tr>
+        <tr><td>Find Previous</td><td><kbd>Shift+Enter</kbd></td></tr>
+        <tr><td>Font Settings</td><td><kbd>Ctrl+Shift+F</kbd></td></tr>
+        <tr><td>Zoom In</td><td><kbd>Ctrl+=</kbd> &nbsp;or&nbsp; <kbd>Ctrl+Scroll&nbsp;Up</kbd></td></tr>
+        <tr><td>Zoom Out</td><td><kbd>Ctrl+&minus;</kbd> &nbsp;or&nbsp; <kbd>Ctrl+Scroll&nbsp;Down</kbd></td></tr>
+        <tr><td>Reset Zoom</td><td><kbd>Ctrl+0</kbd></td></tr>
+        <tr><td>Theme: Ros&eacute; Pine</td><td><kbd>Ctrl+Shift+1</kbd></td></tr>
+        <tr><td>Theme: Dark</td><td><kbd>Ctrl+Shift+2</kbd></td></tr>
+        <tr><td>Theme: Light</td><td><kbd>Ctrl+Shift+3</kbd></td></tr>
+        <tr><td>Toggle Fullscreen</td><td><kbd>F11</kbd></td></tr>
+        <tr><td>Reload</td><td><kbd>Ctrl+R</kbd></td></tr>
+        <tr><td>Developer Tools</td><td><kbd>Ctrl+Shift+I</kbd></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- BUILD -->
+<section id="build">
+  <div class="section-title">
+    <h2>Build from Source</h2>
+    <p>Get up and running in minutes &mdash; requires Node.js v18+</p>
+  </div>
+  <div class="build-steps">
+    <div class="build-step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Clone the repository</h3>
+        <p>Clone and enter the project directory</p>
+        <div class="ci">git clone https://github.com/msjahid/jupylite.git && cd jupylite</div>
+      </div>
+    </div>
+    <div class="build-step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Install dependencies</h3>
+        <p>Downloads Electron and electron-builder</p>
+        <div class="ci">npm install</div>
+      </div>
+    </div>
+    <div class="build-step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Run in development</h3>
+        <p>Opens the app with hot reload</p>
+        <div class="ci">npm start</div>
+      </div>
+    </div>
+    <div class="build-step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Build distributable</h3>
+        <p>Outputs to <span style="color:var(--secondary-color)">dist/</span> folder</p>
+        <div class="ci">npm run build:linux</div>
+        <div class="ci">npm run build:win</div>
+        <div class="ci">npm run build:mac</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTHOR -->
+<section id="author">
+  <div class="section-title"><h2>Author</h2></div>
+  <div class="author-card">
+    <div class="author-av">JH</div>
+    <div>
+      <div class="author-name">Jahid Hasan</div>
+      <div class="author-handle">@msjahid</div>
+      <div class="author-bio">MS in Data Science &bull; Kaggle Grandmaster (top 0.1%) &bull; CLEF 2025 NLP researcher &bull; Full-stack developer with 6+ years experience. Building beautiful tools for the data science community.</div>
+      <div class="author-links">
+        <a href="https://msjahid.me" class="al" target="_blank"><i class="fa-solid fa-globe"></i> msjahid.me</a>
+        <a href="https://github.com/msjahid" class="al" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+        <a href="https://linkedin.com/in/msjahid" class="al" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+        <a href="https://x.com/msjahids" class="al" target="_blank"><i class="fa-brands fa-x-twitter"></i> Twitter</a>
+        <a href="mailto:msjahid.ai@gmail.com" class="al"><i class="fa-solid fa-envelope"></i> Email</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-brand">JupyLite</div>
+  <div class="ft-links">
+    <a href="https://github.com/msjahid/jupylite" target="_blank">GitHub</a>
+    <a href="https://github.com/msjahid/jupylite/releases" target="_blank">Releases</a>
+    <a href="https://github.com/msjahid/jupylite/issues" target="_blank">Report Issue</a>
+    <a href="https://jupylite.msjahid.me" target="_blank">Website</a>
+    <a href="https://msjahid.me" target="_blank">Author</a>
+  </div>
+  <p>Released under the <a href="https://github.com/msjahid/jupylite/blob/main/LICENSE" target="_blank">MIT License</a> &bull; Made with &hearts; by <a href="https://msjahid.me" target="_blank">Jahid Hasan</a></p>
+</footer>
+
+</body>
+</html>

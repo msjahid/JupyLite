@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>About JupyLite</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #1f1d2e; color: #e0def4;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      height: 100vh; display: flex; flex-direction: column;
+      overflow: hidden; user-select: none;
+    }
+    .banner {
+      background: #26233a;
+      border-bottom: 1px solid rgba(110,106,134,0.3);
+      padding: 18px 22px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .banner img { width: 58px; height: 58px; border-radius: 12px; object-fit: contain; }
+    .app-name   { font-size: 1.5rem; font-weight: 700; color: #e0def4; }
+    .app-ver    { font-size: 0.85rem; color: #908caa; margin-top: 3px; }
+    .app-ver b  { color: #f6c177; font-weight: 600; }
+    .content {
+      flex: 1; padding: 14px 22px 8px;
+      display: flex; flex-direction: column; gap: 8px;
+      font-size: 13px; line-height: 1.6;
+    }
+    .content p  { color: #c4bfe4; }
+    .dev        { color: #e0def4; font-weight: 500; }
+    .dev b      { color: #c4a7e7; }
+    .links      { display: flex; flex-direction: column; gap: 3px; }
+    .link-row   { display: flex; align-items: center; gap: 8px; font-size: 12.5px; }
+    .lbl        { color: #6e6a86; width: 52px; flex-shrink: 0; }
+    .link-btn {
+      background: none; border: none; padding: 0;
+      color: #9ccfd8; font-size: 12.5px; font-family: inherit;
+      text-decoration: underline; text-decoration-color: rgba(156,207,216,0.35);
+      cursor: pointer; text-align: left;
+    }
+    .link-btn:hover { color: #c4a7e7; text-decoration-color: #c4a7e7; }
+    .copy { font-size: 11px; color: #6e6a86; }
+    .footer {
+      padding: 12px 22px 20px;
+      border-top: 1px solid rgba(110,106,134,0.2);
+      display: flex; justify-content: flex-end;
+    }
+    .ok-btn {
+      padding: 7px 36px;
+      background: #c4a7e7; color: #191724;
+      border: none; border-radius: 6px;
+      font-size: 13px; font-weight: 700;
+      cursor: pointer; font-family: inherit;
+    }
+    .ok-btn:hover  { filter: brightness(1.1); }
+    .ok-btn:active { transform: scale(0.97); }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <img src="../assets/JupyLite.png" alt="" onerror="this.style.display='none'"/>
+    <div>
+      <div class="app-name">JupyLite</div>
+      <div class="app-ver">Version <b>1.0.0</b></div>
+    </div>
+  </div>
+
+  <div class="content">
+    <p>A beautiful, lightweight Jupyter Notebook viewer.<br/>
+       Built with Electron &amp; open web technologies.</p>
+    <div class="dev">Developed &amp; maintained by <b>Jahid Hasan</b>&nbsp;(msjahid)</div>
+    <div class="links">
+      <div class="link-row">
+        <span class="lbl">Website</span>
+        <button class="link-btn" id="btn-web">http://jupylite.msjahid.me/</button>
+      </div>
+      <div class="link-row">
+        <span class="lbl">GitHub</span>
+        <button class="link-btn" id="btn-gh">https://github.com/msjahid</button>
+      </div>
+    </div>
+    <div class="copy">© 2024 Jahid Hasan. Released under the MIT License.</div>
+  </div>
+
+  <div class="footer">
+    <button class="ok-btn" id="ok-btn">Ok</button>
+  </div>
+
+  <script>
+    // nodeIntegration: true, contextIsolation: false — require works directly
+    const { ipcRenderer, shell } = require('electron');
+
+    // Load icon via IPC — works in both dev and packaged builds
+    ipcRenderer.invoke('get-app-icon').then(dataUri => {
+      if (dataUri) document.getElementById('app-icon').src = dataUri;
+    }).catch(() => {});
+
+    document.getElementById('ok-btn').addEventListener('click', function() {
+      ipcRenderer.send('close-about-win');
+    });
+    document.getElementById('btn-web').addEventListener('click', function() {
+      shell.openExternal('http://jupylite.msjahid.me/');
+    });
+    document.getElementById('btn-gh').addEventListener('click', function() {
+      shell.openExternal('https://github.com/msjahid');
+    });
+  </script>
+</body>
+</html>

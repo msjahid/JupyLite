@@ -1,0 +1,143 @@
+{
+  "name": "jupylite",
+  "productName": "JupyLite",
+  "version": "1.0.0",
+  "description": "A beautiful Jupyter Notebook viewer for Windows, Linux, and macOS",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "./node_modules/.bin/electron . --no-sandbox",
+    "build:win": "./node_modules/.bin/electron-builder --win",
+    "build:linux": "./node_modules/.bin/electron-builder --linux",
+    "build:mac": "./node_modules/.bin/electron-builder --mac",
+    "build:all": "./node_modules/.bin/electron-builder --win --linux"
+  },
+  "build": {
+    "appId": "me.msjahid.jupylite",
+    "productName": "JupyLite",
+    "copyright": "Copyright © 2024 Jahid Hasan",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "fileAssociations": [
+      {
+        "ext": "ipynb",
+        "name": "Jupyter Notebook",
+        "description": "Jupyter Notebook File",
+        "mimeType": "application/x-ipynb+json",
+        "role": "Viewer",
+        "icon": "assets/jupyter-logo"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "msi",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/JupyLite.png"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "snap",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "tar.gz",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "rpm",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "pacman",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/JupyLite.png",
+      "category": "Development",
+      "description": "A beautiful Jupyter Notebook viewer",
+      "mimeTypes": [
+        "application/x-ipynb+json"
+      ],
+      "desktop": {
+        "entry": {
+          "Name": "JupyLite",
+          "Comment": "A beautiful Jupyter Notebook viewer",
+          "Categories": "Development;Science;Education;",
+          "MimeType": "application/x-ipynb+json;",
+          "StartupWMClass": "jupylite",
+          "Keywords": "jupyter;notebook;ipynb;python;"
+        }
+      }
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg"
+        }
+      ],
+      "icon": "assets/JupyLite.png",
+      "category": "public.app-category.developer-tools"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  },
+  "keywords": [
+    "jupyter",
+    "notebook",
+    "ipynb",
+    "viewer"
+  ],
+  "author": {
+    "name": "Jahid Hasan",
+    "email": "msjahid.ai@gmail.com",
+    "url": "https://msjahid.me"
+  },
+  "homepage": "https://msjahid.me",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^41.0.2",
+    "electron-builder": "^26.0.0"
+  }
+}
